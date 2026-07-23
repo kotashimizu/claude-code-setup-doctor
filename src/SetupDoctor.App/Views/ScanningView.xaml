@@ -1,0 +1,54 @@
+<UserControl x:Class="SetupDoctor.App.Views.ScanningView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="診断実行中">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="{StaticResource ScanningTitle}"
+                       FontSize="18" FontWeight="SemiBold"
+                       Foreground="#1E3A5F"
+                       TextAlignment="Center" Margin="0,0,0,16"/>
+
+            <ProgressBar IsIndeterminate="True"
+                         Width="360" Height="6"
+                         Margin="0,0,0,16"
+                         AutomationProperties.Name="診断進行中"/>
+
+            <TextBlock Text="{Binding BusyMessage}"
+                       FontSize="12" Foreground="#555"
+                       TextAlignment="Center" Margin="0,0,0,20"/>
+
+            <!-- リアルタイムの結果プレビュー -->
+            <ListView ItemsSource="{Binding Results}"
+                      MaxHeight="280" Width="500"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      AutomationProperties.Name="診断チェック一覧">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="4,2">
+                            <TextBlock Text="{Binding StatusLabel}" Width="80" FontSize="11">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#388E3C"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFail}" Value="True">
+                                                <Setter Property="Foreground" Value="#C62828"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="{Binding CheckId}" FontSize="11" Foreground="#333"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Content="{StaticResource ScanningCancel}"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="0,16,0,0" Padding="24,8"
+                    AutomationProperties.Name="診断をキャンセル"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

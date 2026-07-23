@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>$(MSBuildProjectName.Replace("-", "_"))</RootNamespace>
+    <Copyright>非公式ツール — Anthropicとは無関係です</Copyright>
+    <Company>非公式</Company>
+  </PropertyGroup>
+</Project>

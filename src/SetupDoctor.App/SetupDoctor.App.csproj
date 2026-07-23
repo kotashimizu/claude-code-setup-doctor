@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SetupDoctor.App</RootNamespace>
+    <AssemblyName>SetupDoctor</AssemblyName>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+    <Win32Resource />
+    <!-- バージョン情報 -->
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <InformationalVersion>0.1.0-beta</InformationalVersion>
+    <Company>非公式ツール（Anthropic社製品ではありません）</Company>
+    <Product>Claude Code セットアップ診断ツール</Product>
+    <Description>Claude Code のセットアップを診断・修復する非公式Windowsコンパニオンツール。</Description>
+    <Copyright>Copyright © 2026 contributors</Copyright>
+  </PropertyGroup>
+
+  <!-- self-contained single-file publish（win-x64 用）-->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+    <TrimmerRootDescriptor></TrimmerRootDescriptor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SetupDoctor.Core\SetupDoctor.Core.csproj" />
+    <ProjectReference Include="..\SetupDoctor.Infrastructure.Windows\SetupDoctor.Infrastructure.Windows.csproj" />
+    <ProjectReference Include="..\SetupDoctor.Reporting\SetupDoctor.Reporting.csproj" />
+  </ItemGroup>
+
+</Project>

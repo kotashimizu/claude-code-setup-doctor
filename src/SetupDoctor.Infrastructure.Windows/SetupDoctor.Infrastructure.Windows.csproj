@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SetupDoctor.Infrastructure.Windows</RootNamespace>
+    <AssemblyName>SetupDoctor.Infrastructure.Windows</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SetupDoctor.Core\SetupDoctor.Core.csproj" />
+  </ItemGroup>
+
+</Project>

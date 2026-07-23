@@ -1,0 +1,20 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+TestResults/
+artifacts/
+publish/
+*.user
+*.suo
+*.log
+*.setup-doctor-backup-*
+docs/implementation_notes/current_plan.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# NuGet lock files (committed to pin versions)
+# packages.lock.json

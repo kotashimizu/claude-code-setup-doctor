@@ -1,0 +1,33 @@
+<UserControl x:Class="SetupDoctor.App.Views.StartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="スタート画面">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="480">
+            <TextBlock Text="{StaticResource StartWelcome}"
+                       FontSize="22" FontWeight="Bold"
+                       Foreground="#1E3A5F"
+                       TextAlignment="Center" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{StaticResource StartDescription}"
+                       FontSize="13" Foreground="#555"
+                       TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,8"/>
+
+            <TextBlock Text="{StaticResource AppDisclaimer}"
+                       FontSize="11" Foreground="#888"
+                       TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,24"/>
+
+            <TextBlock Text="{StaticResource StartConsentNote}"
+                       FontSize="12" Foreground="#666"
+                       TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,32"/>
+
+            <Button Content="{StaticResource StartScan}"
+                    Command="{Binding StartScanCommand}"
+                    HorizontalAlignment="Center"
+                    Padding="32,12" FontSize="14"
+                    Background="#1E3A5F" Foreground="White"
+                    BorderThickness="0"
+                    AutomationProperties.Name="診断を開始"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

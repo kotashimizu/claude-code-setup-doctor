@@ -1,0 +1,57 @@
+<Window x:Class="SetupDoctor.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:SetupDoctor.App.ViewModels"
+        xmlns:views="clr-namespace:SetupDoctor.App.Views"
+        Title="{StaticResource AppTitle}"
+        Height="680" Width="920"
+        MinHeight="520" MinWidth="720"
+        WindowStartupLocation="CenterScreen"
+        AutomationProperties.Name="{StaticResource AppTitle}">
+
+    <Window.Resources>
+        <!-- 画面切り替え：AppScreen値ごとにContentTemplateを選択する -->
+        <DataTemplate x:Key="StartTemplate">
+            <views:StartView/>
+        </DataTemplate>
+        <DataTemplate x:Key="ScanningTemplate">
+            <views:ScanningView/>
+        </DataTemplate>
+        <DataTemplate x:Key="ResultsTemplate">
+            <views:ResultsView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- タイトルバー -->
+        <Border DockPanel.Dock="Top" Background="#1E3A5F" Padding="16,10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{StaticResource AppTitle}"
+                           Foreground="White" FontSize="14" FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="  ·  非公式ツール"
+                           Foreground="#88AACC" FontSize="12"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- メインコンテンツ：CurrentScreenによってビューを切り替え -->
+        <ContentControl Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.Start}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource StartTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.Scanning}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource ScanningTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.Results}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource ResultsTemplate}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+    </DockPanel>
+</Window>

@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- アプリ全般 -->
+    <sys:String x:Key="AppTitle">Claude Code セットアップ診断ツール（非公式）</sys:String>
+    <sys:String x:Key="AppDisclaimer">このツールはAnthropicの非公式コンパニオンユーティリティです。Anthropic製品ではありません。</sys:String>
+
+    <!-- スタート画面 -->
+    <sys:String x:Key="StartWelcome">Claude Code のセットアップを診断します</sys:String>
+    <sys:String x:Key="StartDescription">このツールは、Windows環境でClaude Codeが正常に動作するために必要な設定を確認します。</sys:String>
+    <sys:String x:Key="StartScan">診断を開始</sys:String>
+    <sys:String x:Key="StartConsentNote">診断中に変更は行いません。問題が検出された場合、修復の確認を求めます。</sys:String>
+
+    <!-- スキャン画面 -->
+    <sys:String x:Key="ScanningTitle">診断を実行中…</sys:String>
+    <sys:String x:Key="ScanningCancel">キャンセル</sys:String>
+
+    <!-- 結果画面 -->
+    <sys:String x:Key="ResultsTitle">診断結果</sys:String>
+    <sys:String x:Key="ResultsReady">準備完了</sys:String>
+    <sys:String x:Key="ResultsRepairable">修復可能な問題があります</sys:String>
+    <sys:String x:Key="ResultsUserAction">ユーザー操作が必要です</sys:String>
+    <sys:String x:Key="ResultsITAction">IT管理者による対応が必要です</sys:String>
+    <sys:String x:Key="ResultsRunRepair">修復を実行</sys:String>
+    <sys:String x:Key="ResultsReScan">再スキャン</sys:String>
+    <sys:String x:Key="ResultsExportReport">レポートを保存</sys:String>
+
+    <!-- ステータスラベル -->
+    <sys:String x:Key="Status_Pass">合格</sys:String>
+    <sys:String x:Key="Status_Fail">失敗</sys:String>
+    <sys:String x:Key="Status_Warning">警告</sys:String>
+    <sys:String x:Key="Status_Repairable">修復可能</sys:String>
+    <sys:String x:Key="Status_UserAction">操作が必要</sys:String>
+    <sys:String x:Key="Status_ITAction">IT管理者対応</sys:String>
+    <sys:String x:Key="Status_NotApplicable">非対象</sys:String>
+    <sys:String x:Key="Status_Unknown">不明</sys:String>
+
+    <!-- 必須レベルラベル -->
+    <sys:String x:Key="Level_Required">必須</sys:String>
+    <sys:String x:Key="Level_Recommended">推奨</sys:String>
+    <sys:String x:Key="Level_Optional">任意</sys:String>
+    <sys:String x:Key="Level_ITManaged">IT管理下</sys:String>
+
+    <!-- 修復確認画面 -->
+    <sys:String x:Key="RemediationReviewTitle">修復内容の確認</sys:String>
+    <sys:String x:Key="RemediationReviewDescription">以下の変更を行います。実行前にバックアップが作成されます。</sys:String>
+    <sys:String x:Key="RemediationConfirm">修復を実行する</sys:String>
+    <sys:String x:Key="RemediationCancel">キャンセル</sys:String>
+
+    <!-- 修復実行画面 -->
+    <sys:String x:Key="RemediationExecutingTitle">修復を実行中…</sys:String>
+
+    <!-- 完了画面 -->
+    <sys:String x:Key="CompletionTitle">完了</sys:String>
+    <sys:String x:Key="CompletionSuccess">修復が完了しました。</sys:String>
+    <sys:String x:Key="CompletionPartial">一部の修復が完了しました。詳細を確認してください。</sys:String>
+    <sys:String x:Key="CompletionReScan">再スキャンして確認</sys:String>
+    <sys:String x:Key="CompletionClose">閉じる</sys:String>
+
+    <!-- チェックID日本語名称 -->
+    <sys:String x:Key="Check_CHK-OS-001">OS バージョン</sys:String>
+    <sys:String x:Key="Check_CHK-ARCH-001">CPU アーキテクチャ</sys:String>
+    <sys:String x:Key="Check_CHK-MEM-001">メモリ</sys:String>
+    <sys:String x:Key="Check_CHK-SHELL-001">Windows PowerShell</sys:String>
+    <sys:String x:Key="Check_CHK-SHELL-002">PowerShell 7</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-001">Claude 候補検出</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-002">Claude バージョン</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-003">Claude Desktop 競合</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-004">複数インストール</sys:String>
+    <sys:String x:Key="Check_CHK-PATH-001">ユーザー PATH</sys:String>
+    <sys:String x:Key="Check_CHK-GIT-001">Git</sys:String>
+    <sys:String x:Key="Check_CHK-GITBASH-001">Git Bash</sys:String>
+    <sys:String x:Key="Check_CHK-AUTH-001">Claude 認証</sys:String>
+    <sys:String x:Key="Check_CHK-NET-001">接続確認（api.anthropic.com）</sys:String>
+    <sys:String x:Key="Check_CHK-NET-002">接続確認（statsig.anthropic.com）</sys:String>
+    <sys:String x:Key="Check_CHK-NET-003">接続確認（sentry.io）</sys:String>
+    <sys:String x:Key="Check_CHK-WINGET-001">winget</sys:String>
+    <sys:String x:Key="Check_CHK-DOCTOR-001">claude doctor</sys:String>
+
+</ResourceDictionary>

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/setup-doctor/diagnostic-result.schema.json",
+  "title": "Claude Code Setup Doctor Diagnostic Report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAtUtc",
+    "appVersion",
+    "overallReadiness",
+    "checks"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "generatedAtUtc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "appVersion": {
+      "type": "string"
+    },
+    "catalogVersion": {
+      "type": "string"
+    },
+    "overallReadiness": {
+      "type": "string",
+      "enum": [
+        "Ready",
+        "ReadyWithRecommendations",
+        "Repairable",
+        "UserActionRequired",
+        "ITActionRequired",
+        "Unsupported",
+        "Unknown"
+      ]
+    },
+    "machine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "osFamily": {
+          "type": "string"
+        },
+        "osBuild": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "architecture": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "memoryGiB": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "is64BitOperatingSystem": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "requirement",
+          "status",
+          "summaryCode",
+          "detailCode",
+          "durationMs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CHK-[A-Z]+-[0-9]{3}$"
+          },
+          "requirement": {
+            "type": "string",
+            "enum": [
+              "Required",
+              "Recommended",
+              "Optional",
+              "ITManaged"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pass",
+              "Warning",
+              "Fail",
+              "Repairable",
+              "UserAction",
+              "ITAction",
+              "NotApplicable",
+              "Unknown"
+            ]
+          },
+          "summaryCode": {
+            "type": "string"
+          },
+          "detailCode": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "safeMetadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "remediationIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "properties": {
+        "userProfileMasked": {
+          "type": "boolean"
+        },
+        "secretsExcluded": {
+          "type": "boolean"
+        },
+        "rawPathExcluded": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

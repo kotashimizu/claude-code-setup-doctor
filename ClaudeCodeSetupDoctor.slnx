@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SetupDoctor.App/SetupDoctor.App.csproj" />
+    <Project Path="src/SetupDoctor.Core/SetupDoctor.Core.csproj" />
+    <Project Path="src/SetupDoctor.Infrastructure.Windows/SetupDoctor.Infrastructure.Windows.csproj" />
+    <Project Path="src/SetupDoctor.Reporting/SetupDoctor.Reporting.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SetupDoctor.Core.Tests/SetupDoctor.Core.Tests.csproj" />
+    <Project Path="tests/SetupDoctor.Infrastructure.Windows.Tests/SetupDoctor.Infrastructure.Windows.Tests.csproj" />
+    <Project Path="tests/SetupDoctor.IntegrationTests/SetupDoctor.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

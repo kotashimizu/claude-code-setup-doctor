@@ -1,0 +1,86 @@
+schemaVersion: 1
+catalogVersion: 0.1.0
+verifiedAt: 2026-07-22
+checks:
+  - id: CHK-OS-001
+    requirement: Required
+    timeoutSeconds: 2
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-ARCH-001
+    requirement: Required
+    timeoutSeconds: 2
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-MEM-001
+    requirement: Required
+    timeoutSeconds: 3
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-SHELL-001
+    requirement: Required
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds:
+      - REM-PATH-POWERSHELL
+  - id: CHK-CLAUDE-001
+    requirement: Required
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds:
+      - REM-PATH-CLAUDE-LOCALBIN
+      - REM-INSTALL-CLAUDE-WINGET
+  - id: CHK-CLAUDE-002
+    requirement: Required
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-CLAUDE-003
+    requirement: Required
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds:
+      - REM-GUIDE-DESKTOP-UPDATE
+  - id: CHK-PATH-001
+    requirement: Required
+    timeoutSeconds: 2
+    usesNetwork: false
+    remediationIds:
+      - REM-PATH-CLAUDE-LOCALBIN
+  - id: CHK-AUTH-001
+    requirement: Required
+    timeoutSeconds: 10
+    usesNetwork: false
+    remediationIds:
+      - REM-AUTH-LOGIN
+  - id: CHK-GIT-001
+    requirement: Recommended
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-GITBASH-001
+    requirement: Recommended
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds:
+      - REM-CLAUDE-GITBASH-SETTING
+  - id: CHK-WINGET-001
+    requirement: Optional
+    timeoutSeconds: 5
+    usesNetwork: false
+    remediationIds: []
+  - id: CHK-NET-001
+    requirement: Optional
+    timeoutSeconds: 5
+    usesNetwork: true
+    remediationIds: []
+  - id: CHK-NET-002
+    requirement: Optional
+    timeoutSeconds: 5
+    usesNetwork: true
+    remediationIds: []
+  - id: CHK-DOCTOR-001
+    requirement: Optional
+    timeoutSeconds: 30
+    usesNetwork: false
+    remediationIds: []
