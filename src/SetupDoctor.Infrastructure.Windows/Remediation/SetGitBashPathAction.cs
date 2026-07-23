@@ -93,7 +93,7 @@ public sealed class SetGitBashPathAction : IRemediationAction
 
         var latestBackup = backups[0];
         var settingsPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
             ".claude", "settings.json");
 
         try

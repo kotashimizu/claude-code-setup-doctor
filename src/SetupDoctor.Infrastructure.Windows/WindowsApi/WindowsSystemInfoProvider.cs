@@ -32,7 +32,9 @@ public sealed class WindowsSystemInfoProvider : ISystemInfoProvider
             try
             {
                 // Windows 10以降のビルド番号はEnvironment.OSVersionから取得可能
-                return Environment.OSVersion.Version.Build.ToString();
+                // 注意: このプロジェクトには SetupDoctor.Infrastructure.Windows.Environment 名前空間が
+                // 存在するため、System.Environment を完全修飾する必要がある
+                return System.Environment.OSVersion.Version.Build.ToString();
             }
             catch { return null; }
         }
@@ -44,9 +46,9 @@ public sealed class WindowsSystemInfoProvider : ISystemInfoProvider
         {
             return RuntimeInformation.OSArchitecture switch
             {
-                Architecture.X64 => "X64",
-                Architecture.Arm64 => "ARM64",
-                Architecture.X86 => "X86",
+                System.Runtime.InteropServices.Architecture.X64 => "X64",
+                System.Runtime.InteropServices.Architecture.Arm64 => "ARM64",
+                System.Runtime.InteropServices.Architecture.X86 => "X86",
                 _ => RuntimeInformation.OSArchitecture.ToString(),
             };
         }
@@ -64,8 +66,8 @@ public sealed class WindowsSystemInfoProvider : ISystemInfoProvider
         }
     }
 
-    public bool Is64BitOperatingSystem => Environment.Is64BitOperatingSystem;
+    public bool Is64BitOperatingSystem => System.Environment.Is64BitOperatingSystem;
 
     public string ExpandEnvironmentVariables(string path)
-        => Environment.ExpandEnvironmentVariables(path);
+        => System.Environment.ExpandEnvironmentVariables(path);
 }
