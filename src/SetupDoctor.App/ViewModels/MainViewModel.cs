@@ -78,7 +78,7 @@ public sealed class MainViewModel : ViewModelBase
     private void StartScan()
     {
         Results.Clear();
-        Readiness = null;
+        Readiness = OverallReadiness.Unknown;
         IsBusy = true;
         BusyMessage = "診断を実行中です…";
         CurrentScreen = AppScreen.Scanning;
