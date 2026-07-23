@@ -16,5 +16,8 @@ docs/implementation_notes/current_plan.md
 Thumbs.db
 desktop.ini
 
+# Claude Code セッション内部ファイル（このリポジトリの成果物ではない）
+.claude/scheduled_tasks.lock
+
 # NuGet lock files (committed to pin versions)
 # packages.lock.json
