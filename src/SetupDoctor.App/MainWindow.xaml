@@ -20,19 +20,23 @@
         <DataTemplate x:Key="ResultsTemplate">
             <views:ResultsView/>
         </DataTemplate>
+        <DataTemplate x:Key="RemediationReviewTemplate">
+            <views:RemediationReviewView/>
+        </DataTemplate>
+        <DataTemplate x:Key="RemediationExecutingTemplate">
+            <views:RemediationExecutingView/>
+        </DataTemplate>
+        <DataTemplate x:Key="CompletionTemplate">
+            <views:CompletionView/>
+        </DataTemplate>
     </Window.Resources>
 
     <DockPanel>
         <!-- タイトルバー -->
         <Border DockPanel.Dock="Top" Background="#1E3A5F" Padding="16,10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{StaticResource AppTitle}"
-                           Foreground="White" FontSize="14" FontWeight="SemiBold"
-                           VerticalAlignment="Center"/>
-                <TextBlock Text="  ·  非公式ツール"
-                           Foreground="#88AACC" FontSize="12"
-                           VerticalAlignment="Center"/>
-            </StackPanel>
+            <TextBlock Text="{StaticResource AppTitle}"
+                       Foreground="White" FontSize="14" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
         </Border>
 
         <!-- メインコンテンツ：CurrentScreenによってビューを切り替え -->
@@ -48,6 +52,15 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.Results}">
                             <Setter Property="ContentTemplate" Value="{StaticResource ResultsTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.RemediationReview}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource RemediationReviewTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.RemediationExecuting}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource RemediationExecutingTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentScreen}" Value="{x:Static vm:AppScreen.Completion}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource CompletionTemplate}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

@@ -4,10 +4,12 @@ using SetupDoctor.Core.Abstractions;
 using SetupDoctor.Core.Diagnostics;
 using SetupDoctor.Core.Diagnostics.Checks;
 using SetupDoctor.Core.Policies;
+using SetupDoctor.Core.Remediation;
 using SetupDoctor.Infrastructure.Windows.Environment;
 using SetupDoctor.Infrastructure.Windows.Files;
 using SetupDoctor.Infrastructure.Windows.Network;
 using SetupDoctor.Infrastructure.Windows.Processes;
+using SetupDoctor.Infrastructure.Windows.Remediation;
 using SetupDoctor.Infrastructure.Windows.WindowsApi;
 using SetupDoctor.Reporting;
 
@@ -33,9 +35,26 @@ public partial class App : Application
         var aggregator = new ReadinessAggregator();
         IDiagnosticOrchestrator orchestrator = new DiagnosticOrchestrator(checks, aggregator, clock);
 
-        var mainVm = new MainViewModel(orchestrator);
+        var remediationActions = BuildRemediationActions(pathSvc, sysInfo, claudeSettings, backupSvc);
+        IRemediationOrchestrator remediationOrchestrator = new RemediationOrchestrator(remediationActions.Values);
+
+        var mainVm = new MainViewModel(orchestrator, remediationOrchestrator, remediationActions, reportWriter);
         var mainWindow = new MainWindow { DataContext = mainVm };
         mainWindow.Show();
+    }
+
+    private static IReadOnlyDictionary<string, IRemediationAction> BuildRemediationActions(
+        IPathEnvironmentService pathSvc,
+        ISystemInfoProvider sysInfo,
+        IClaudeSettingsService claudeSettings,
+        IFileBackupService backupSvc)
+    {
+        IRemediationAction[] actions =
+        [
+            new AddClaudeToPathAction(pathSvc, sysInfo),
+            new SetGitBashPathAction(claudeSettings, backupSvc),
+        ];
+        return actions.ToDictionary(a => a.Id);
     }
 
     private static IReadOnlyList<IDiagnosticCheck> BuildChecks(

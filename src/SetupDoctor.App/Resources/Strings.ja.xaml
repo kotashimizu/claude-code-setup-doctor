@@ -3,14 +3,14 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- アプリ全般 -->
-    <sys:String x:Key="AppTitle">Claude Code セットアップ診断ツール（非公式）</sys:String>
-    <sys:String x:Key="AppDisclaimer">このツールはAnthropicの非公式コンパニオンユーティリティです。Anthropic製品ではありません。</sys:String>
+    <sys:String x:Key="AppTitle">Claude Code セットアップ診断ツール</sys:String>
+    <sys:String x:Key="AppDisclaimer">このツールはAnthropic公式製品ではありません。個人が開発した非公式のコンパニオンユーティリティです。</sys:String>
 
     <!-- スタート画面 -->
     <sys:String x:Key="StartWelcome">Claude Code のセットアップを診断します</sys:String>
-    <sys:String x:Key="StartDescription">このツールは、Windows環境でClaude Codeが正常に動作するために必要な設定を確認します。</sys:String>
+    <sys:String x:Key="StartDescription">Claude Codeを利用できる環境か確認します。基本診断では、OS、シェル、Claude Code、PATH、認証、Gitの状態を確認します。</sys:String>
     <sys:String x:Key="StartScan">診断を開始</sys:String>
-    <sys:String x:Key="StartConsentNote">診断中に変更は行いません。問題が検出された場合、修復の確認を求めます。</sys:String>
+    <sys:String x:Key="StartConsentNote">設定の変更は、内容を確認して承認した場合だけ実行します。診断だけでは何も変更しません。</sys:String>
 
     <!-- スキャン画面 -->
     <sys:String x:Key="ScanningTitle">診断を実行中…</sys:String>
@@ -18,23 +18,39 @@
 
     <!-- 結果画面 -->
     <sys:String x:Key="ResultsTitle">診断結果</sys:String>
-    <sys:String x:Key="ResultsReady">準備完了</sys:String>
-    <sys:String x:Key="ResultsRepairable">修復可能な問題があります</sys:String>
-    <sys:String x:Key="ResultsUserAction">ユーザー操作が必要です</sys:String>
-    <sys:String x:Key="ResultsITAction">IT管理者による対応が必要です</sys:String>
-    <sys:String x:Key="ResultsRunRepair">修復を実行</sys:String>
-    <sys:String x:Key="ResultsReScan">再スキャン</sys:String>
-    <sys:String x:Key="ResultsExportReport">レポートを保存</sys:String>
+    <sys:String x:Key="ResultsRunRepair">自動で直す</sys:String>
+    <sys:String x:Key="ResultsReScan">もう一度診断</sys:String>
+    <sys:String x:Key="ResultsExportReport">診断結果を保存</sys:String>
+    <sys:String x:Key="ResultsShowDetail">技術的な詳細を見る</sys:String>
+    <sys:String x:Key="ResultsHideDetail">技術的な詳細を隠す</sys:String>
+    <sys:String x:Key="ResultsSavedPrefix">保存しました:</sys:String>
+    <sys:String x:Key="ResultsOpenFolder">保存先を開く</sys:String>
 
-    <!-- ステータスラベル -->
-    <sys:String x:Key="Status_Pass">合格</sys:String>
-    <sys:String x:Key="Status_Fail">失敗</sys:String>
-    <sys:String x:Key="Status_Warning">警告</sys:String>
+    <!-- 全体状態の見出し／補足（docs/03 3.4 S-03） -->
+    <sys:String x:Key="Overall_Ready_Headline">Claude Codeを利用できます</sys:String>
+    <sys:String x:Key="Overall_Ready_Sub">必須項目に問題はありません</sys:String>
+    <sys:String x:Key="Overall_ReadyWithRecommendations_Headline">利用できます</sys:String>
+    <sys:String x:Key="Overall_ReadyWithRecommendations_Sub">推奨設定を確認してください</sys:String>
+    <sys:String x:Key="Overall_Repairable_Headline">修復可能な問題があります</sys:String>
+    <sys:String x:Key="Overall_Repairable_Sub">変更内容を確認して修復できます</sys:String>
+    <sys:String x:Key="Overall_UserActionRequired_Headline">追加操作が必要です</sys:String>
+    <sys:String x:Key="Overall_UserActionRequired_Sub">ログインまたはターミナル再起動が必要です</sys:String>
+    <sys:String x:Key="Overall_ITActionRequired_Headline">管理者への確認が必要です</sys:String>
+    <sys:String x:Key="Overall_ITActionRequired_Sub">企業ポリシーまたはネットワーク制限の可能性があります</sys:String>
+    <sys:String x:Key="Overall_Unsupported_Headline">この環境は対象外です</sys:String>
+    <sys:String x:Key="Overall_Unsupported_Sub">対応OS・64-bit・メモリ要件を確認してください</sys:String>
+    <sys:String x:Key="Overall_Unknown_Headline">状態を確認できませんでした</sys:String>
+    <sys:String x:Key="Overall_Unknown_Sub">詳細ログを確認してください</sys:String>
+
+    <!-- ステータスラベル（docs/03 3.5 状態表現：厳密に一致させる） -->
+    <sys:String x:Key="Status_Pass">問題なし</sys:String>
+    <sys:String x:Key="Status_Fail">問題あり</sys:String>
+    <sys:String x:Key="Status_Warning">確認推奨</sys:String>
     <sys:String x:Key="Status_Repairable">修復可能</sys:String>
     <sys:String x:Key="Status_UserAction">操作が必要</sys:String>
-    <sys:String x:Key="Status_ITAction">IT管理者対応</sys:String>
-    <sys:String x:Key="Status_NotApplicable">非対象</sys:String>
-    <sys:String x:Key="Status_Unknown">不明</sys:String>
+    <sys:String x:Key="Status_ITAction">管理者確認</sys:String>
+    <sys:String x:Key="Status_NotApplicable">対象外</sys:String>
+    <sys:String x:Key="Status_Unknown">確認不能</sys:String>
 
     <!-- 必須レベルラベル -->
     <sys:String x:Key="Level_Required">必須</sys:String>
@@ -44,19 +60,24 @@
 
     <!-- 修復確認画面 -->
     <sys:String x:Key="RemediationReviewTitle">修復内容の確認</sys:String>
-    <sys:String x:Key="RemediationReviewDescription">以下の変更を行います。実行前にバックアップが作成されます。</sys:String>
-    <sys:String x:Key="RemediationConfirm">修復を実行する</sys:String>
-    <sys:String x:Key="RemediationCancel">キャンセル</sys:String>
+    <sys:String x:Key="RemediationReviewDescription">選択した項目だけを修復します。実行前に自動でバックアップを作成します。</sys:String>
+    <sys:String x:Key="RemediationConfirmCheckbox">内容を確認しました</sys:String>
+    <sys:String x:Key="RemediationConfirm">選択した修復を実行</sys:String>
+    <sys:String x:Key="RemediationBack">戻る</sys:String>
+    <sys:String x:Key="RemediationNoAutoFix">この項目は現在、自動修復に対応していません。手動での対応が必要です。</sys:String>
 
     <!-- 修復実行画面 -->
     <sys:String x:Key="RemediationExecutingTitle">修復を実行中…</sys:String>
+    <sys:String x:Key="RemediationExecutingCancelNote">実行中の変更は安全な区切りまで完了させてから停止します。完了済みの変更は元に戻りません。</sys:String>
 
-    <!-- 完了画面 -->
+    <!-- 完了画面（docs/03 3.4 S-06） -->
     <sys:String x:Key="CompletionTitle">完了</sys:String>
-    <sys:String x:Key="CompletionSuccess">修復が完了しました。</sys:String>
-    <sys:String x:Key="CompletionPartial">一部の修復が完了しました。詳細を確認してください。</sys:String>
-    <sys:String x:Key="CompletionReScan">再スキャンして確認</sys:String>
-    <sys:String x:Key="CompletionClose">閉じる</sys:String>
+    <sys:String x:Key="CompletionSuccess">セットアップを確認しました。Claude Codeを利用できる状態です。</sys:String>
+    <sys:String x:Key="CompletionPartial">修復は完了しました。新しいターミナルを開いて、もう一度確認してください。</sys:String>
+    <sys:String x:Key="CompletionFailed">一部の修復が完了しませんでした。詳細を確認してください。</sys:String>
+    <sys:String x:Key="CompletionReScan">もう一度診断</sys:String>
+    <sys:String x:Key="CompletionExportReport">診断結果を保存</sys:String>
+    <sys:String x:Key="CompletionBackToStart">スタートに戻る</sys:String>
 
     <!-- チェックID日本語名称 -->
     <sys:String x:Key="Check_CHK-OS-001">OS バージョン</sys:String>
@@ -64,14 +85,14 @@
     <sys:String x:Key="Check_CHK-MEM-001">メモリ</sys:String>
     <sys:String x:Key="Check_CHK-SHELL-001">Windows PowerShell</sys:String>
     <sys:String x:Key="Check_CHK-SHELL-002">PowerShell 7</sys:String>
-    <sys:String x:Key="Check_CHK-CLAUDE-001">Claude 候補検出</sys:String>
-    <sys:String x:Key="Check_CHK-CLAUDE-002">Claude バージョン</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-001">Claude Code 本体</sys:String>
+    <sys:String x:Key="Check_CHK-CLAUDE-002">Claude Code バージョン</sys:String>
     <sys:String x:Key="Check_CHK-CLAUDE-003">Claude Desktop 競合</sys:String>
     <sys:String x:Key="Check_CHK-CLAUDE-004">複数インストール</sys:String>
-    <sys:String x:Key="Check_CHK-PATH-001">ユーザー PATH</sys:String>
+    <sys:String x:Key="Check_CHK-PATH-001">Claude Code PATH</sys:String>
     <sys:String x:Key="Check_CHK-GIT-001">Git</sys:String>
     <sys:String x:Key="Check_CHK-GITBASH-001">Git Bash</sys:String>
-    <sys:String x:Key="Check_CHK-AUTH-001">Claude 認証</sys:String>
+    <sys:String x:Key="Check_CHK-AUTH-001">ログイン状態</sys:String>
     <sys:String x:Key="Check_CHK-NET-001">接続確認（api.anthropic.com）</sys:String>
     <sys:String x:Key="Check_CHK-NET-002">接続確認（statsig.anthropic.com）</sys:String>
     <sys:String x:Key="Check_CHK-NET-003">接続確認（sentry.io）</sys:String>

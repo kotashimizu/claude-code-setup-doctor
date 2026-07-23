@@ -42,7 +42,19 @@
 - **暫定判断**: `docs/implementation_notes/` がこのリポジトリ内に存在することから、同リポジトリ内の `src/` に実装を置く方針とする。
 - **確認が必要な箇所**: 志水との合意
 
-### Q-006: CI プラットフォームの指定がない
+### Q-007: 「非公式」表記の重複と About 画面未実装
+
+- **箇所**: `src/SetupDoctor.App/MainWindow.xaml`（タイトルバー）、`src/SetupDoctor.App/Views/StartView.xaml`
+- **問題**: プロジェクトCLAUDE.mdは「非公式ツールであることをAboutと初回同意画面に明示する」ことを要求している。実装ではタイトルバーの「（非公式）」とその直後の「・非公式ツール」が同じ画面内で重複表示されており、志水の実機確認で冗長と指摘された。また専用のAbout画面（docs/03 S-01が言及するバージョン・プライバシー・About導線）はまだ実装されていない。
+- **暫定判断**: 商標・提携誤認を避ける要件は維持しつつ、表示は1箇所に集約する。タイトルバーからは「（非公式）」表記を外し、スタート画面の同意文（AppDisclaimer）を「このツールはAnthropic公式製品ではありません。個人が開発した非公式のコンパニオンユーティリティです。」という明確な1文に強化し、これを唯一の公式な開示箇所とする。About画面自体は本フェーズでは実装しない。
+- **確認が必要な箇所**: 専用About画面（バージョン情報・プライバシー説明・非公式である旨の再掲）を今後のフェーズで実装するか、志水の最終判断が必要。
+
+### Q-008: REM-PATH-POWERSHELL が未実装
+
+- **箇所**: `docs/06_remediation_spec.md` §6.5 REM-PATH-POWERSHELL
+- **問題**: 修復UIを結果画面に接続する際、実装済みの修復アクションは `REM-PATH-CLAUDE-LOCALBIN` と `REM-CLAUDE-GITBASH-SETTING` の2つのみ。CHK-SHELL-001（Windows PowerShellが既定パスに存在するがPATHにない）がRepairable状態になった場合に対応する `REM-PATH-POWERSHELL` アクションが未実装のため、この項目は「自動で直す」レビュー画面で「この項目は現在、自動修復に対応していません」という案内のみ表示され、実際の自動修復は行われない。
+- **暫定判断**: 志水から報告された「レポート保存が機能しない／戻れない」「修復ボタンが存在しない」という不具合修正を優先し、新規の修復アクション実装はスコープ外とした。CHK-SHELL-001がRepairableになるのはWindows既定のPowerShellパスが何らかの理由でPATHから外れている稀なケースであり、影響は限定的と判断。
+- **確認が必要な箇所**: `REM-PATH-POWERSHELL` を `AddClaudeToPathAction` と同様の実装（対象パスのみ異なる）で追加するかどうかの志水の判断。
 
 - **箇所**: `docs/09_implementation_roadmap.md` Phase 0 Deliverables
 - **問題**: "CI build/test workflow" が Phase 0 成果物に含まれるが、GitHub Actions・Azure DevOps等のプラットフォームが指定されていない。

@@ -1,0 +1,79 @@
+<UserControl x:Class="SetupDoctor.App.Views.RemediationReviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="修復内容の確認">
+    <DockPanel Margin="20">
+        <TextBlock DockPanel.Dock="Top" Text="{StaticResource RemediationReviewTitle}"
+                   FontSize="20" FontWeight="Bold" Foreground="#1A2B4C" Margin="0,0,0,4"/>
+        <TextBlock DockPanel.Dock="Top" Text="{StaticResource RemediationReviewDescription}"
+                   FontSize="13" Foreground="#555" Margin="0,0,0,4" TextWrapping="Wrap"/>
+        <TextBlock DockPanel.Dock="Top" Text="{StaticResource RemediationNoAutoFix}"
+                   FontSize="12" Foreground="#B71C1C" Margin="0,4,0,12" TextWrapping="Wrap"
+                   Visibility="{Binding HasUnsupportedRemediation, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+        <!-- フッター: 確認チェックボックスと操作ボタン -->
+        <StackPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+            <CheckBox Content="{StaticResource RemediationConfirmCheckbox}"
+                      IsChecked="{Binding RemediationConfirmed, Mode=TwoWay}"
+                      FontSize="13" Margin="0,0,0,12"
+                      AutomationProperties.Name="内容を確認しました"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{StaticResource RemediationBack}"
+                        Command="{Binding BackToResultsCommand}"
+                        Margin="0,0,8,0" Padding="16,8"
+                        AutomationProperties.Name="戻る"/>
+                <Button Content="{StaticResource RemediationConfirm}"
+                        Command="{Binding ExecuteRemediationCommand}"
+                        Padding="18,9"
+                        Background="#00A99D" Foreground="White" BorderThickness="0"
+                        AutomationProperties.Name="選択した修復を実行"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- 修復項目一覧（docs/03 3.4 S-04） -->
+        <ListView ItemsSource="{Binding RemediationPlan}"
+                  BorderThickness="0" Background="Transparent"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  AutomationProperties.Name="修復項目一覧">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" Padding="4,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                          IsEnabled="{Binding IsFeasible}" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#1A2B4C"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding FeasibilityNote}" FontSize="12" Foreground="#B71C1C"
+                                       Margin="26,2,0,0" TextWrapping="Wrap"
+                                       Visibility="{Binding IsFeasible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                            <Grid Margin="26,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="変更対象: " FontSize="12" Foreground="#888"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Target}" FontSize="12" Foreground="#333"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="変更前: " FontSize="12" Foreground="#888"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding BeforeSummary}" FontSize="12" Foreground="#333" TextWrapping="Wrap"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="変更後: " FontSize="12" Foreground="#888"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AfterSummary}" FontSize="12" Foreground="#333" TextWrapping="Wrap"/>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="再起動: " FontSize="12" Foreground="#888"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1"
+                                           Text="{Binding RequiresNewProcessLabel, StringFormat='新しいターミナル/Claude再起動が必要: {0}'}"
+                                           FontSize="12" Foreground="#333"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
+</UserControl>
