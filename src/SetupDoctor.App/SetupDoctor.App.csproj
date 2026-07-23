@@ -27,6 +27,9 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>false</PublishReadyToRun>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- WPFのネイティブ依存(PresentationNative等)を単一exeに埋め込むために必須。
+         これが無いと配布した.exe単体では起動時に依存解決に失敗し、ウィンドウが開かないまま終了する -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <DebugType>embedded</DebugType>
     <TrimmerRootDescriptor></TrimmerRootDescriptor>
   </PropertyGroup>
