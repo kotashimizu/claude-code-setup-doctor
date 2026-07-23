@@ -8,8 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SetupDoctor.App</RootNamespace>
     <AssemblyName>SetupDoctor</AssemblyName>
-    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
-    <Win32Resource />
+    <!-- アイコン未デザインのため既定アイコンを使用。デザイン確定後に Resources\app.ico を追加して有効化する -->
     <!-- バージョン情報 -->
     <Version>0.1.0</Version>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
