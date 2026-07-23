@@ -101,6 +101,8 @@ public sealed class ReadinessAggregator
         "CHK-DOCTOR-001" => true,
         "CHK-WINGET-001" => true,
         "CHK-ENV-001" => true,
+        // Cowork(Claude Desktop)は別製品領域のため、Claude Code CLIの全体判定には含めない(docs/05 §5.2.1)
+        _ when checkId.StartsWith("CHK-COWORK-", StringComparison.Ordinal) => true,
         _ => false,
     };
 }

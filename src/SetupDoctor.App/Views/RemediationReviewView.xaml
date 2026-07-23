@@ -58,6 +58,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="変更対象: " FontSize="12" Foreground="#888"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Target}" FontSize="12" Foreground="#333"/>
@@ -69,6 +70,9 @@
                                 <TextBlock Grid.Row="3" Grid.Column="1"
                                            Text="{Binding RequiresNewProcessLabel, StringFormat='新しいターミナル/Claude再起動が必要: {0}'}"
                                            FontSize="12" Foreground="#333"/>
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="権限: " FontSize="12" Foreground="#888"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding RequiresElevationLabel}"
+                                           FontSize="12" Foreground="#333" TextWrapping="Wrap"/>
                             </Grid>
                         </StackPanel>
                     </Border>

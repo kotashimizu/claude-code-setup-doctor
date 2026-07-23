@@ -28,6 +28,8 @@ public sealed class MainViewModel : ViewModelBase
             ["CHK-PATH-001"] = "REM-PATH-CLAUDE-LOCALBIN",
             ["CHK-CLAUDE-001"] = "REM-PATH-CLAUDE-LOCALBIN",
             ["CHK-GITBASH-001"] = "REM-CLAUDE-GITBASH-SETTING",
+            ["CHK-COWORK-001"] = "REM-COWORK-START-SERVICE",
+            ["CHK-COWORK-004"] = "REM-COWORK-DECOMPRESS-VHDX",
         };
 
     private readonly IDiagnosticOrchestrator _orchestrator;

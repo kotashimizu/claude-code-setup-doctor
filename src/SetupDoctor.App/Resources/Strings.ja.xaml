@@ -98,5 +98,11 @@
     <sys:String x:Key="Check_CHK-NET-003">接続確認（sentry.io）</sys:String>
     <sys:String x:Key="Check_CHK-WINGET-001">winget</sys:String>
     <sys:String x:Key="Check_CHK-DOCTOR-001">claude doctor</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-001">Cowork 仮想マシンサービス</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-002">Cowork 仮想化基盤</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-003">Cowork ネットワークコンポーネント</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-004">Cowork 仮想ディスク圧縮</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-005">Cowork ネットワーク競合</sys:String>
+    <sys:String x:Key="Check_CHK-COWORK-006">Cowork 組織設定</sys:String>
 
 </ResourceDictionary>

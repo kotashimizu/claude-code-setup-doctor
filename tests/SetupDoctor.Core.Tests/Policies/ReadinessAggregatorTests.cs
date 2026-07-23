@@ -160,4 +160,16 @@ public sealed class ReadinessAggregatorTests
 
         Assert.Equal(OverallReadiness.ITActionRequired, _sut.Aggregate(modified));
     }
+
+    [Fact]
+    public void CoworkChecks_NeverAffectOverallReadiness()
+    {
+        // CoworkはClaude Desktopの別機能であり、Claude Code CLIの準備状態には影響しない(docs/05 §5.2.1)
+        var results = AllRequiredPass();
+        results.Add(DiagnosticResultBuilder.Repairable("CHK-COWORK-001"));
+        results.Add(DiagnosticResultBuilder.ITAction("CHK-COWORK-005"));
+        results.Add(DiagnosticResultBuilder.Unknown("CHK-COWORK-006"));
+
+        Assert.Equal(OverallReadiness.Ready, _sut.Aggregate(results));
+    }
 }

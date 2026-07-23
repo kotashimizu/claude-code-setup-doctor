@@ -30,12 +30,14 @@ public partial class App : Application
         IFileBackupService backupSvc = new WindowsFileBackupService();
         INetworkProbe networkProbe = new WindowsNetworkProbe();
         IReportWriter reportWriter = new JsonReportWriter();
+        IElevatedCommandRunner elevatedRunner = new WindowsElevatedCommandRunner();
 
         var checks = BuildChecks(runner, sysInfo, pathSvc, claudeSettings, networkProbe, clock);
         var aggregator = new ReadinessAggregator();
         IDiagnosticOrchestrator orchestrator = new DiagnosticOrchestrator(checks, aggregator, clock);
 
-        var remediationActions = BuildRemediationActions(pathSvc, sysInfo, claudeSettings, backupSvc);
+        var remediationActions = BuildRemediationActions(pathSvc, sysInfo, claudeSettings, backupSvc,
+            runner, elevatedRunner);
         IRemediationOrchestrator remediationOrchestrator = new RemediationOrchestrator(remediationActions.Values);
 
         var mainVm = new MainViewModel(orchestrator, remediationOrchestrator, remediationActions, reportWriter);
@@ -47,12 +49,17 @@ public partial class App : Application
         IPathEnvironmentService pathSvc,
         ISystemInfoProvider sysInfo,
         IClaudeSettingsService claudeSettings,
-        IFileBackupService backupSvc)
+        IFileBackupService backupSvc,
+        ICommandRunner runner,
+        IElevatedCommandRunner elevatedRunner)
     {
         IRemediationAction[] actions =
         [
             new AddClaudeToPathAction(pathSvc, sysInfo),
             new SetGitBashPathAction(claudeSettings, backupSvc),
+            // Cowork(Claude Desktop)向け。サービス名・パスは非公式情報(docs/06 §6.11参照)
+            new StartCoworkServiceAction(runner, elevatedRunner),
+            new DecompressCoworkVhdxAction(sysInfo, elevatedRunner),
         ];
         return actions.ToDictionary(a => a.Id);
     }
@@ -93,6 +100,13 @@ public partial class App : Application
             // 補助
             new WinGetCheck(runner, clock),
             new ClaudeDoctorCheck(runner, sysInfo, clock),
+            // Cowork(Claude Desktop)。全体判定には含めない独立カテゴリ(docs/05 §5.2.1)
+            new CoworkVmServiceCheck(runner, clock),
+            new CoworkVirtualizationCheck(runner, sysInfo, clock),
+            new CoworkHcsComponentsCheck(runner, clock),
+            new CoworkVhdxCompressionCheck(sysInfo, clock),
+            new CoworkNetworkConflictCheck(clock),
+            new CoworkOrgPolicyHintCheck(clock),
         };
     }
 }

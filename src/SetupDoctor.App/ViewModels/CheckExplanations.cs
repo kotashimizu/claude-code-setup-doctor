@@ -73,6 +73,29 @@ public static class CheckExplanations
         ("CHK-DOCTOR-001", DiagnosticStatus.Pass) => "補助診断（claude doctor）を実行しました。",
         ("CHK-DOCTOR-001", DiagnosticStatus.Unknown) => "補助診断（claude doctor）がタイムアウトしました。",
 
+        // Cowork（Claude DesktopのAIエージェント機能）。Claude Code本体の準備状態には影響しません。
+        ("CHK-COWORK-001", DiagnosticStatus.Pass) => "Coworkの仮想マシンサービスは動いています。",
+        ("CHK-COWORK-001", DiagnosticStatus.Repairable) => "Coworkの仮想マシンサービスが停止しています。自動で直せます。",
+        ("CHK-COWORK-001", DiagnosticStatus.Unknown) => "Coworkの仮想マシンサービスが見つかりませんでした。Claude DesktopがCowork対応バージョンか確認してください。",
+
+        ("CHK-COWORK-002", DiagnosticStatus.Pass) => "Coworkに必要な仮想化機能は有効になっています。",
+        ("CHK-COWORK-002", DiagnosticStatus.Repairable) => "Coworkに必要な仮想化機能（Virtual Machine Platform）が無効になっています。有効化の手順を案内します（再起動が必要です）。",
+        ("CHK-COWORK-002", DiagnosticStatus.Unknown) => "お使いのWindows Home Editionでは、仮想化機能が有効でもCoworkの動作が不安定という報告があります。動かない場合はこの点を疑ってください。",
+
+        ("CHK-COWORK-003", DiagnosticStatus.Pass) => "Coworkに必要なネットワークコンポーネントは揃っています。",
+        ("CHK-COWORK-003", DiagnosticStatus.Repairable) => "Coworkに必要なネットワークコンポーネントの一部が見つかりません。修復手順を案内します。",
+        ("CHK-COWORK-003", DiagnosticStatus.NotApplicable) => "仮想化機能が未確認のため、この確認はスキップされました。",
+
+        ("CHK-COWORK-004", DiagnosticStatus.Pass) => "Coworkの仮想ディスクは正常な状態です。",
+        ("CHK-COWORK-004", DiagnosticStatus.Repairable) => "Coworkの仮想ディスクが圧縮された状態になっており、起動に失敗する原因になります。自動で直せます。",
+        ("CHK-COWORK-004", DiagnosticStatus.Unknown) => "Coworkの仮想ディスクがまだ作成されていません（未使用の可能性があります）。",
+
+        ("CHK-COWORK-005", DiagnosticStatus.Pass) => "Coworkのネットワーク設定に競合は見つかりませんでした。",
+        ("CHK-COWORK-005", DiagnosticStatus.ITAction) => "VPNやDockerなど他のソフトとネットワークの設定が重なっている可能性があります。それらを一時停止してCoworkの起動を試してください。",
+
+        ("CHK-COWORK-006", DiagnosticStatus.Unknown) => "他の項目は問題ないのにCoworkが動かない場合は、組織（会社）側の管理設定で無効化されている可能性があります。管理者にご確認ください。",
+        ("CHK-COWORK-006", DiagnosticStatus.NotApplicable) => "他に確認すべき項目が見つかったため、この案内は表示されません。",
+
         _ => status switch
         {
             DiagnosticStatus.Pass => "問題ありません。",

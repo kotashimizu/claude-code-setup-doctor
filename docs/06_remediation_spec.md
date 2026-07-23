@@ -206,6 +206,105 @@ install --id Anthropic.ClaudeCode -e --accept-package-agreements --accept-source
 - ネイティブCLIパスが存在する場合、その場所をマスク表示する。
 - 更新後の再診断を促す。
 
+## 6.11 Cowork修復（Claude Desktop、Windows専用、非公式情報に基づく）
+
+> 対象のCHK-COWORK-*はdocs/05_diagnostic_catalog.md §5.2.1参照。サービス名・パスは非公式情報のため、実装は固定値依存を避けフォールバック設計とする。
+
+### REM-COWORK-START-SERVICE
+
+#### 目的
+
+`CoworkVMService`が停止している場合に起動する。
+
+#### 前提条件
+
+- サービスが存在する（`Get-Service`で確認可能）。
+- StartTypeがDisabledでない。
+
+#### 実行
+
+- サービス起動はWindowsの既定権限モデル上、通常ユーザーには許可されないため、単一コマンドのみをUAC昇格（`runas`）付きで実行する。
+- アプリ本体は非昇格のまま起動を維持し、この操作単体にのみ昇格を求める。
+- 昇格プロンプトはOS標準のものを使用し、アプリが認証情報を扱わない。
+
+#### 検証
+
+- 昇格プロセスの終了コードを確認後、`CHK-COWORK-001`を再実行しStatus=Runningになったか確認する。
+
+#### ロールバック
+
+- サービス停止（`Stop-Service`、同様に昇格が必要）。ただし通常運用では停止せず放置してよいため、明示的なロールバックボタンは提供しない。
+
+#### 禁止
+
+- StartTypeの変更（Disabled⇔Auto等）。ユーザーの意図的な設定を上書きする恐れがあるため行わない。
+
+### REM-COWORK-DECOMPRESS-VHDX
+
+#### 目的
+
+VMバンドルフォルダにNTFS圧縮属性が付与されている場合に解除する（Claude Desktop v1.24012.0で修正済みの既知バグへの対処。旧バージョン利用者向け）。
+
+#### Target
+
+`%LOCALAPPDATA%\Packages\Claude_*\LocalCache\Roaming\Claude\vm_bundles\`（MSIX版）または`%APPDATA%\Claude\vm_bundles\`（非MSIX版）
+
+#### 実行
+
+1. `CoworkVMService`を停止（昇格必要）。
+2. `compact /u /s:"<vm_bundlesフォルダ>"`を実行し圧縮属性を解除（昇格必要）。
+3. サービスを再起動（昇格必要）。
+4. 上記3ステップは1回のUAC昇格プロンプトでまとめて実行する（昇格済みの単一ヘルパープロセス内で連続実行し、ユーザーへの昇格要求を1回に抑える）。
+
+#### 検証
+
+- フォルダのCompressed属性が解除されたことを確認。
+- `CoworkVMService`がRunning状態に戻ったことを確認。
+
+#### 禁止
+
+- vm_bundles以外のフォルダへの圧縮属性操作。
+- Windows全体のNTFS圧縮設定変更。
+
+### REM-COWORK-ENABLE-VMP（ガイダンスのみ、自動実行しない）
+
+#### 目的
+
+Virtual Machine Platformが無効な場合の有効化を案内する。
+
+#### 動作
+
+- 自動で機能を有効化しない。再起動が必須かつマシン全体の仮想化スタックに影響するため、既存プロジェクトの「Machine全体への変更は慎重に扱う」方針に準じ、コピー可能なコマンドをそのまま提示するだけに留める。
+- 提示コマンド例:
+  ```powershell
+  Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All -NoRestart
+  bcdedit /set hypervisorlaunchtype auto
+  ```
+- Windows Home Editionの場合、機能自体は有効化できても動作が不安定という矛盾する報告がある旨を併記する。
+- 実行後は手動での再起動と再診断を促す。
+
+### REM-COWORK-REPAIR-HCS（ガイダンスのみ、自動実行しない）
+
+#### 目的
+
+hns/vmcompute/vfpextが欠落している場合のOS修復手順を案内する。
+
+#### 動作
+
+- DISM・SFCはOS本体への深い修復であり、既存プロジェクトの「OS本体の修復・企業ポリシー領域は自動修復の対象外」という方針に該当するため自動実行しない。
+- 提示コマンド例:
+  ```powershell
+  DISM /Online /Cleanup-Image /RestoreHealth
+  sfc /scannow
+  ```
+  実行後、Virtual Machine Platformの無効化→再有効化と再起動を案内する。
+- 上記を実施しても解消しない場合は、Windows Update側の不整合の可能性がある旨を明記し、それ以上の自動修復は行わない。
+
+## 6.12 Coworkネットワーク競合・組織無効化（自動修復なし）
+
+- CHK-COWORK-005（ネットワークサブネット競合）: NAT設定・仮想スイッチの直接操作は行わない。競合している可能性のあるプロセス（VPNクライアント、Docker Desktop等）の名称のみ提示し、「一時停止して再試行」という手動対応を案内する。
+- CHK-COWORK-006（組織による無効化の間接シグナル）: ローカル診断からは判定不能なため常にInformational。「組織管理者にOrganization settings > Capabilities > Coworkの設定をご確認ください」という案内のみ。
+
 ## 6.9 IT対応へ送る条件
 
 次の場合は修復ボタンを出さず、ITActionへ移行します。

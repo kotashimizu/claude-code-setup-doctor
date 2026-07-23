@@ -202,6 +202,70 @@
 - Remediation: none
 - Report: executable names, error codes, timestamps; no bypass instructions
 
+## 5.2.1 Cowork診断（Claude Desktop、Windows専用、対象外扱い）
+
+> **出典に関する注記**: 以下のCHK-COWORK-*は、Anthropic公式ドキュメントに加え、GitHub issue・第三者技術ブログから収集した非公式情報に基づく（2026-07-23調査時点）。サービス名・レジストリキー・ファイルパスはAnthropicの実装変更で変わる可能性があるため、判定ロジックは固定文字列への依存を避け、存在確認・ワイルドカード検索でのフォールバックを優先する。全体判定アルゴリズム（5.3節）には含めない独立カテゴリとして扱う（Claude Code CLIの準備状態とは無関係のため）。GitHub issue番号は2026年上半期だけで#37000台→#78000台へ大幅に入れ替わっており、issue自体を判定根拠にしない。
+
+### CHK-COWORK-001: CoworkVMServiceの稼働状態
+
+- Requirement: Optional（Cowork利用者にとっては実質Recommended）
+- Logic: `Get-Service`でサービス名`CoworkVMService`（または`*Cowork*VMService*`ワイルドカード）のStatus/StartTypeを確認。読み取り専用。
+- Pass: Status = Running
+- Repairable: Status = Stopped かつ Disabledでない
+- Fail: 起動試行後もRunningにならない
+- Unknown: サービス自体が存在しない（Claude Desktop未インストール、またはCowork非搭載バージョン）
+- Remediation: REM-COWORK-START-SERVICE
+- 出典: 第三者ブログ（Bryce Watson診断ガイド）、GitHub issue #57371, #57221（信頼度: 中）
+
+### CHK-COWORK-002: Virtual Machine Platform / Hyper-V 有効化とEdition整合性
+
+- Requirement: Optional
+- Logic: レジストリ`EditionID`とビルド番号（≥22000でWindows 11相当と独自判定。Anthropic公式readiness checkerの「Windows 11をWindows 10と誤判定する」既知バグを踏まえ、公式ツールの判定を信用しない）。`Get-WindowsOptionalFeature -FeatureName VirtualMachinePlatform`のState確認。
+- Pass: VirtualMachinePlatform = Enabled
+- Repairable: Disabled（管理者権限があれば機能有効化可能）
+- Fail: BIOS/UEFIレベルで仮想化無効
+- Unknown: Windows Home Editionは機能が有効でも動作が不安定という矛盾する報告が複数あるため、楽観的にPass判定しない
+- Remediation: REM-COWORK-ENABLE-VMP（ガイダンスのみ、自動実行しない。再起動必須のため）
+- 出典: Anthropic公式ヘルプ（Deploy Claude Desktop for Windows）、GitHub issue #31991, #50621ほか（信頼度: 公式部分は高、Home Edition挙動は中）
+
+### CHK-COWORK-003: HCS関連コンポーネント（hns / vmcompute / vfpext）
+
+- Requirement: Optional
+- Logic: `Get-Service hns`, `Get-Service vmcompute`の存在確認。vfpextはドライバのため`sc query vfpext`で登録確認。
+- Pass: 3つとも登録済み
+- Repairable: VirtualMachinePlatform有効なのに欠落（DISM/SFCで復旧を試みる価値あり）
+- Fail: 修復試行後も解消しない（ビルド不整合の疑い、Windows Update側の問題である可能性）
+- Remediation: REM-COWORK-REPAIR-HCS（ガイダンスのみ、自動実行しない。OS深部の修復のため）
+- 出典: Anthropic公式ヘルプ（HCSエラー文言 "Missing HCS services: HNS, vmcompute, vfpext" を確認）、GitHub issue #77277, #78858, #78866（信頼度: エラー文言は公式で高、原因分析は中）
+
+### CHK-COWORK-004: Cowork VM仮想ディスク（vhdx）のNTFS圧縮属性
+
+- Requirement: Optional
+- Logic: VMバンドルフォルダ（`%LOCALAPPDATA%\Packages\Claude_*\LocalCache\Roaming\Claude\vm_bundles\`または`%APPDATA%\Claude\vm_bundles\`）とその配下のCompressed属性を確認。
+- Pass: Compressed属性なし
+- Repairable: 属性あり
+- Unknown: vm_bundlesフォルダが見つからない（Cowork未初期化）
+- Remediation: REM-COWORK-DECOMPRESS-VHDX
+- 備考: Claude Desktop v1.24012.0（2026-07-21）で公式修正済みの既知バグ。旧バージョン利用者・圧縮フォルダがキャッシュされたままの環境向け。
+- 出典: Anthropic公式changelog（v1.24012.0修正内容と一致）、GitHub issue #39010（信頼度: 高）
+
+### CHK-COWORK-005: Coworkネットワーク（172.16.0.0/24）のサブネット競合
+
+- Requirement: Optional, user initiated
+- Logic: ネットワークアダプタ一覧から172.16.0.0/24・172.17.0.0/24の重複、Docker Desktop・VPNアダプタの有無を確認。`Get-HnsNetwork`等Hyper-V管理コマンドレット依存の確認は行わない（Home環境等で利用不可の場合があるため）。
+- Pass: 重複なし
+- ITAction: 重複あり、またはネットワーク競合の兆候を検出
+- Remediation: なし（NAT設定の直接操作は対象外。競合プロセス名を提示し手動対応を案内するのみ）
+- 出典: GitHub issue #28516、第三者ブログ（Elliot Segler）（信頼度: 中）
+
+### CHK-COWORK-006: 組織（Team/Enterprise）によるCowork無効化の間接シグナル
+
+- Requirement: Optional
+- Logic: CHK-COWORK-001〜005が全てPassにもかかわらずCoworkが機能しない場合の消去法的ヒント。ローカルWindows診断からは組織設定を直接確認する手段がないため常にUnknown。
+- Status: 常にUnknown（Informational）
+- Remediation: なし。「Organization settings > Capabilities > Cowork の設定を組織管理者にご確認ください」という案内文のみ。
+- 出典: Anthropic公式ヘルプ（Use Claude Cowork on Team and Enterprise plans）。ただしエンドユーザー側の具体的なエラー文言は未確認（信頼度: 存在確認は高、UI文言は未確認）
+
 ## 5.3 全体判定アルゴリズム
 
 Pseudo rules:

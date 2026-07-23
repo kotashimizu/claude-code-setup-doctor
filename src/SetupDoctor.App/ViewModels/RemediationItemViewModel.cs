@@ -18,6 +18,9 @@ public sealed class RemediationItemViewModel : ViewModelBase
     public bool RequiresElevation => Plan.RequiresElevation;
     public bool RequiresNewProcess => Plan.RequiresNewProcess;
     public string RequiresNewProcessLabel => Plan.RequiresNewProcess ? "必要" : "不要";
+    public string RequiresElevationLabel => Plan.RequiresElevation
+        ? "管理者権限が必要（実行時にWindowsの確認画面が表示されます）"
+        : "不要";
 
     public bool IsSelected
     {
