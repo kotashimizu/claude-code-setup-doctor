@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using SetupDoctor.Core.Abstractions;
 using SetupDoctor.Core.Diagnostics;
